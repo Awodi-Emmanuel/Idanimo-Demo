@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'pip install --user -r requirements.txt'
+                sh 'docker run -v $(pwd):/app -w /app python:3.8 pip install -r requirements.txt'
                 // sh 'python manage.py collectstatic --noinput'
                 sh 'docker build -t demo-app .'
             }
