@@ -2,7 +2,12 @@ pipeline {
     agent {
         docker {
             image 'python:3.8'
+            tools {
+                // add Docker client to the pipeline environment
+                docker 'docker'
+            }
         }
+        
     }
     environment {
         DOCKER_HUB = credentials('docker-hub')
@@ -10,9 +15,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // sh 'docker run -v $(pwd):/app -w /app python:3.8 pip install -r requirements.txt'
-                // sh 'python manage.py collectstatic --noinput'
-                sh 'docker build -t demo-app .'
+                script{
+                    // sh 'docker run -v $(pwd):/app -w /app python:3.8 pip install -r requirements.txt'
+                    // sh 'python manage.py collectstatic --noinput'
+                    sh 'docker build -t demo-app .'
+                }
+                
             }
         }
         stage('Deploy to Staging') {
