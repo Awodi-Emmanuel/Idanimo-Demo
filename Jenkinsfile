@@ -1,4 +1,5 @@
 pipeline {
+<<<<<<< HEAD
     agent any
     tools{
         maven 'maven_3_5_0'
@@ -8,6 +9,36 @@ pipeline {
             steps{
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Awodi-Emmanuel/Idanimo-Demo']]])
                 sh 'mvn clean install'
+=======
+    agent {
+        docker {
+            image 'python:3.8'
+            tools {
+                // add Docker client to the pipeline environment
+                docker 'docker'
+            }
+        }
+    }
+    environment {
+        DOCKER_HUB = credentials('docker-hub')
+    }
+    stages {
+        stage('Build') {
+            steps {
+//                 sh 'pip install -r requirements.txt'
+                // sh 'python manage.py collectstatic --noinput'
+                sh 'docker build -t demo-app .'
+            }
+        }
+        stage('Deploy to Staging') {
+            when {
+                branch 'staging'
+            }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'staging-server', usernameVariable: 'SSH_USER', passwordVariable: 'SSH_PASS')]) {
+                    sh 'sshpass -p $SSH_PASS ssh -o StrictHostKeyChecking=no $SSH_USER@staging-server "docker pull my-docker-username/my-django-app:latest && docker-compose -f docker-compose.staging.yml up -d"'
+                }
+>>>>>>> f8ff4507068b025fbc77aa7945670ff723363eb0
             }
         }
         stage('Build docker image'){
@@ -37,6 +68,7 @@ pipeline {
         }
     }
 }
+<<<<<<< HEAD
 
 // pipeline {
 //     agent {
@@ -104,3 +136,5 @@ pipeline {
 
 //     }
 // }
+=======
+>>>>>>> f8ff4507068b025fbc77aa7945670ff723363eb0
