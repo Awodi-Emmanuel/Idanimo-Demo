@@ -2,6 +2,10 @@ pipeline {
     agent {
         docker {
             image 'python:3.8'
+            tools {
+                // add Docker client to the pipeline environment
+                docker 'docker'
+            }
         }
     }
     environment {
