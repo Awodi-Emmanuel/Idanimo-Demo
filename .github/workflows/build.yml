@@ -1,7 +1,7 @@
 name: Build and Publish Artifact
 on:
   push:
-    branches: [release-dev]
+    branches: release-dev
 jobs:
   build:
     runs-on: ubuntu-latest
