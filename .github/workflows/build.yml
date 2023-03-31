@@ -44,4 +44,4 @@ jobs:
             
             # Run Docker container
             docker run -d --name demo-app -p 80:80 demo-app:latest
-            # end pipeline
+            # end code pipeline
