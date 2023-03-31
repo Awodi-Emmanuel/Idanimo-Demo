@@ -1,7 +1,7 @@
 name: Build and Deploy Artifact
 on:
   push:
-    branches: release-dev
+    branches: [release-dev]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -44,4 +44,3 @@ jobs:
             
             # Run Docker container
             docker run -d --name demo-app -p 80:80 demo-app:latest
-            # end code pipeline2
